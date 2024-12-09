@@ -13,3 +13,11 @@ def get_date(today=False):
             return dt.strptime(date_prompt, FORMAT).strftime(FORMAT)
         except ValueError:
             print("Wrong format! Try again.")
+
+
+def get_amount():
+    while True:
+        try:
+            return float(input("Enter the amount: "))
+        except ValueError:
+            print("Invalid input! Please enter a non-negative, non-zero number.")
