@@ -33,3 +33,7 @@ def get_category():
             return CATEGORIES[category]
         except KeyError:
             print("Invalid category! Try again.")
+
+
+def get_description():
+    return input("Enter a brief description: ")
