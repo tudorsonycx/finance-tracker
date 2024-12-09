@@ -62,3 +62,7 @@ def add():
     CSV.add_entry(date, amount, category, description)
     print("Entry added successfully!")
     print()
+
+
+if __name__ == "__main__":
+    add()
