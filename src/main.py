@@ -1,4 +1,5 @@
 import csv
+from helpers import get_date, get_amount, get_category, get_description
 
 
 class CSV:
@@ -42,3 +43,22 @@ class CSV:
         with open(cls.CSV_FILE, "a", newline="") as csvfile:
             writer = csv.writer(csvfile)
             writer.writerow([date, amount, category, description])
+
+
+def add():
+    """
+    Adds a new entry to the CSV file.
+
+    This function initializes the CSV file if it is not already initialized,
+    then prompts the user to input the date, amount, category, and description
+    of the entry. Finally, it adds the entry to the CSV file and prints a
+    success message.
+    """
+    CSV.initialize_csv()
+    date = get_date()
+    amount = get_amount()
+    category = get_category()
+    description = get_description()
+    CSV.add_entry(date, amount, category, description)
+    print("Entry added successfully!")
+    print()
