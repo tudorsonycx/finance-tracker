@@ -129,7 +129,10 @@ def main():
             add()
         elif choice.lower() == "v":
             start_date = get_date()
-            end_date = get_date(today=True)
+            today = False
+            if input("Do you want the end date to be today? (y/n): ").lower() == "y":
+                today = True
+            end_date = get_date(today=today)
             df = CSV.get_transactions(start_date, end_date)
 
             if input("Do you want to plot the transactions? (y/n): ").lower() == "y":
