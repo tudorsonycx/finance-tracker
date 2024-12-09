@@ -21,3 +21,15 @@ def get_amount():
             return float(input("Enter the amount: "))
         except ValueError:
             print("Invalid input! Please enter a non-negative, non-zero number.")
+
+
+def get_category():
+    while True:
+        print("Enter a category: ")
+        for key, value in CATEGORIES.items():
+            print(f"- {key} for {value}")
+        category = input("Category: ").upper()
+        try:
+            return CATEGORIES[category]
+        except KeyError:
+            print("Invalid category! Try again.")
