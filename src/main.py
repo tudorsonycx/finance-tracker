@@ -97,6 +97,7 @@ class CSV:
         Returns:
             None
         """
+        df.set_index("date", inplace=True)
         income_df = df[df["category"] == "Income"].resample("D").sum()
         expense_df = df[df["category"] == "Expense"].resample("D").sum()
         plt.figure(figsize=(12, 6))
