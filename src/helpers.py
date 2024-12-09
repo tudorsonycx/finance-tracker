@@ -1,7 +1,5 @@
 from datetime import datetime as dt
-
-FORMAT = "%d-%m-%y"
-CATEGORIES = {"I": "Income", "E": "Expense"}
+from config import FORMAT, CATEGORIES
 
 
 def get_date(today=False):
