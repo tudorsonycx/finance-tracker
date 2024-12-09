@@ -2,12 +2,14 @@ import csv
 from helpers import get_date, get_amount, get_category, get_description
 from datetime import datetime as dt
 import pandas as pd
+from matplotlib import pyplot as plt
+from config import CSV_FILE, COLUMNS, FORMAT
 
 
 class CSV:
-    CSV_FILE = "finance_data.csv"
-    COLUMNS = ["date", "amount", "category", "description"]
-    FORMAT = "%d-%m-%y"
+    CSV_FILE = CSV_FILE
+    COLUMNS = COLUMNS
+    FORMAT = FORMAT
 
     @classmethod
     def initialize_csv(cls):
@@ -15,8 +17,8 @@ class CSV:
         Initializes the CSV file by checking if it exists and has the correct header.
         If the file does not exist or the header is incorrect, it creates a new CSV file with the correct header.
 
-        Raises:
-            ValueError: If the existing CSV file has an incorrect header.
+        Returns:
+            None
         """
         try:
             with open(cls.CSV_FILE, "r", newline="") as csvfile:
@@ -85,16 +87,28 @@ class CSV:
         print(f"Net: {(total_income - total_expense):.2f}")
         return df_filtered
 
+    @classmethod
+    def plot_transactions(cls, df):
+        """
+        Plots the income and expense transactions over time.
+
+        Args:
+            df (pd.DataFrame): A DataFrame containing the transactions.
+        Returns:
+            None
+        """
+        income_df = df[df["category"] == "Income"].resample("D").sum()
+        expense_df = df[df["category"] == "Expense"].resample("D").sum()
+        plt.figure(figsize=(12, 6))
+        plt.plot(income_df.index, income_df["amount"], label="Income", color="g")
+        plt.plot(expense_df.index, expense_df["amount"], label="Expense", color="r")
+        plt.xlabel("Date")
+        plt.ylabel("Amount")
+        plt.title("Income and Expense Over Time")
+        plt.show()
+
 
 def add():
-    """
-    Adds a new entry to the CSV file.
-
-    This function initializes the CSV file if it is not already initialized,
-    then prompts the user to input the date, amount, category, and description
-    of the entry. Finally, it adds the entry to the CSV file and prints a
-    success message.
-    """
     CSV.initialize_csv()
     date = get_date()
     amount = get_amount()
@@ -109,7 +123,7 @@ def main():
     while True:
         print("A. Add a new transaction")
         print("V. View transactions and summary within a date range")
-        print("Q. Exit")
+        print("Q. Exit\n")
         choice = input("Enter your choice: ")
         if choice.lower() == "a":
             add()
@@ -117,11 +131,15 @@ def main():
             start_date = get_date()
             end_date = get_date(today=True)
             df = CSV.get_transactions(start_date, end_date)
+
+            if input("Do you want to plot the transactions? (y/n): ").lower() == "y":
+                CSV.plot_transactions(df)
+            print()
         elif choice.lower() == "q":
             print("Exiting...")
             break
         else:
-            print("Invalid choice. Try again.")
+            print("Invalid choice. Try again.\n")
 
 
 if __name__ == "__main__":
