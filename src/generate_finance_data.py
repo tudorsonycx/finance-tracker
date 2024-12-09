@@ -6,7 +6,7 @@ from config import CSV_FILE, COLUMNS, CATEGORIES
 
 def generate_finance_data():
     # Define the descriptions
-    categories = list(CATEGORIES.keys())
+    categories = list(CATEGORIES.values())
     descriptions = [
         "Salary",
         "Groceries",
@@ -18,7 +18,7 @@ def generate_finance_data():
     # Generate 100 random data entries within the past 30 days
     data = []
     start_date = dt.strptime("01-01-24", "%d-%m-%y")
-    for i in range(100):
+    for _ in range(100):
         date = (start_date - timedelta(days=random.randint(0, 30))).strftime("%d-%m-%y")
         amount = round(random.uniform(10.0, 5000.0), 2)
         category = random.choice(categories)
