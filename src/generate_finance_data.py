@@ -17,7 +17,7 @@ def generate_finance_data():
     ]
     # Generate 100 random data entries within the past 30 days
     data = []
-    start_date = dt.strptime("01-01-24", "%d-%m-%y")
+    start_date = dt.today()
     for _ in range(100):
         date = (start_date - timedelta(days=random.randint(0, 30))).strftime("%d-%m-%y")
         amount = round(random.uniform(10.0, 5000.0), 2)
