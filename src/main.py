@@ -24,3 +24,21 @@ class CSV:
             with open(cls.CSV_FILE, "w", newline="") as csvfile:
                 writer = csv.writer(csvfile)
                 writer.writerow(cls.COLUMNS)
+
+    @classmethod
+    def add_entry(cls, date, amount, category, description):
+        """
+        Adds a new entry to the CSV file.
+
+        Args:
+            date (str): The date of the entry in DD-MM-YY format.
+            amount (float): The amount of the entry.
+            category (str): The category of the entry.
+            description (str): A brief description of the entry.
+
+        Returns:
+            None
+        """
+        with open(cls.CSV_FILE, "a", newline="") as csvfile:
+            writer = csv.writer(csvfile)
+            writer.writerow([date, amount, category, description])
