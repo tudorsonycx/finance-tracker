@@ -103,3 +103,26 @@ def add():
     CSV.add_entry(date, amount, category, description)
     print("Entry added successfully!")
     print()
+
+
+def main():
+    while True:
+        print("A. Add a new transaction")
+        print("V. View transactions and summary within a date range")
+        print("Q. Exit")
+        choice = input("Enter your choice: ")
+        if choice.lower() == "a":
+            add()
+        elif choice.lower() == "v":
+            start_date = get_date()
+            end_date = get_date(today=True)
+            df = CSV.get_transactions(start_date, end_date)
+        elif choice.lower() == "q":
+            print("Exiting...")
+            break
+        else:
+            print("Invalid choice. Try again.")
+
+
+if __name__ == "__main__":
+    main()
