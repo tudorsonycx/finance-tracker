@@ -1,10 +1,13 @@
 import csv
 from helpers import get_date, get_amount, get_category, get_description
+from datetime import datetime as dt
+import pandas as pd
 
 
 class CSV:
     CSV_FILE = "finance_data.csv"
     COLUMNS = ["date", "amount", "category", "description"]
+    FORMAT = "%d-%m-%y"
 
     @classmethod
     def initialize_csv(cls):
@@ -44,6 +47,44 @@ class CSV:
             writer = csv.writer(csvfile)
             writer.writerow([date, amount, category, description])
 
+    @classmethod
+    def get_transactions(cls, start_date, end_date):
+        """
+        Retrieves and prints transactions within a specified date range from a CSV file.
+
+        Args:
+            start_date (str): The start date in the format specified by cls.FORMAT.
+            end_date (str): The end date in the format specified by cls.FORMAT.
+
+        Returns:
+            pd.DataFrame: A DataFrame containing the filtered transactions within the specified date range.
+
+        Prints:
+            - Transactions within the specified date range.
+            - Summary of total income, total expense, and net amount.
+        """
+        df = pd.read_csv(cls.CSV_FILE)
+        df["date"] = pd.to_datetime(df["date"], format=cls.FORMAT)
+        start_date_dt = dt.strptime(start_date, cls.FORMAT)
+        end_date_dt = dt.strptime(end_date, cls.FORMAT)
+        mask = (df["date"] >= start_date_dt) & (df["date"] <= end_date_dt)
+        df_filtered = df[mask]
+        print(f"Transactions from {start_date} to {end_date}")
+        print(
+            df_filtered.to_string(
+                index=False, formatters={"date": lambda x: x.strftime(cls.FORMAT)}
+            )
+        )
+        total_income = df_filtered[df_filtered["category"] == "Income"]["amount"].sum()
+        total_expense = df_filtered[df_filtered["category"] == "Expense"][
+            "amount"
+        ].sum()
+        print("\nSummary:")
+        print(f"Total income: {total_income:.2f}")
+        print(f"Total expense: {total_expense:.2f}")
+        print(f"Net: {(total_income - total_expense):.2f}")
+        return df_filtered
+
 
 def add():
     """
@@ -62,7 +103,3 @@ def add():
     CSV.add_entry(date, amount, category, description)
     print("Entry added successfully!")
     print()
-
-
-if __name__ == "__main__":
-    add()
