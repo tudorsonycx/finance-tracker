@@ -28,7 +28,7 @@ This is a simple Finance Tracker built in Python. It allows you to track various
     ```
 2. Navigate to the project directory:
     ```sh
-    cd my-python-app
+    cd finance-tracker
     ```
 3. Create a virtual environment:
     ```sh
