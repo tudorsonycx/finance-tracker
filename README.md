@@ -71,4 +71,4 @@ python src/main.py
     - You will also have the option to plot the transactions on a graph.
 
 ## License
-This project is licensed under the MIT License.
+This project is licensed under the MIT [License](LICENSE).
